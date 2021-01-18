@@ -7,8 +7,7 @@
     <groupId>club.zhouyouwu.graduate</groupId>
     <artifactId>PythonLearningTools</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>common</name>
-    <description>公共模块</description>
+    <description>总项目管理module</description>
     <packaging>pom</packaging>
 
     <modules>
@@ -16,6 +15,7 @@
         <module>user-management</module>
         <module>analysis</module>
         <module>knowledge-management</module>
+        <module>common</module>
     </modules>
 
 </project>
