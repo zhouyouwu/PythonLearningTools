@@ -1,5 +1,8 @@
 package club.zhouyouwu.graduate.usermanagement.utils;
 
+import org.bouncycastle.jcajce.provider.digest.SHA256;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -165,6 +168,13 @@ public class CipherUtil {
 //        String qKey = new BASE64Encoder().encode(keyPair.getPrivate().getEncoded());
 //        System.out.println(rsa.encrypt(pKey, text));
 //        System.out.println(rsa.decrypt(qKey, rsa.encrypt(pKey, text)));
+        String salt = BCrypt.gensalt();
+        String pp = BCrypt.hashpw(pw, salt);
+
+        System.out.println(pp);
+        String ww = BCrypt.hashpw(pw, salt);
+        System.out.println(ww);
+        System.out.println(BCrypt.checkpw(pw, ww));
         System.out.println(rsa.encrypt("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7AUhS5GzYFIefstz6Hp4Mefdg-NzrChDnKCTJIOsfh2d-FgL8oGJvwEVYalkftTRkbPWbcf-DOJuwenQUqhEC8ab3868okHxU8wwF9UM0WR5_hXk9g6zcTIyyn4ttfQ3m51m9kCOn1Q2GoE7Ibva_vUTbErEhOH4rimQXJEffsQIDAQAB",text));
     }
 }
