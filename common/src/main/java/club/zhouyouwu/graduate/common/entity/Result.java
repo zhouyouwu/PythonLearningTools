@@ -1,6 +1,7 @@
-package club.zhouyouwu.graduate.usermanagement.entity;
+package club.zhouyouwu.graduate.common.entity;
 
-import club.zhouyouwu.graduate.usermanagement.constant.CodeMsg;
+
+import club.zhouyouwu.graduate.common.constant.CodeMsg;
 
 public class Result {
     private int code;

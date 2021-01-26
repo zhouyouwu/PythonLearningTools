@@ -1,4 +1,4 @@
-package club.zhouyouwu.graduate.usermanagement.constant;
+package club.zhouyouwu.graduate.common.constant;
 
 public enum CodeMsg {
     //通用的错误码

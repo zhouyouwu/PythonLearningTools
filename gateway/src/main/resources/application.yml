@@ -1,0 +1,15 @@
+server:
+  port: 6360
+
+spring:
+  profiles:
+    active: dev
+    #active: prod
+
+  cloud:
+    gateway:
+      routes:
+      - id: testgateway
+        uri: http://www.baidu.com
+        predicates:
+        - Query=url,baidu

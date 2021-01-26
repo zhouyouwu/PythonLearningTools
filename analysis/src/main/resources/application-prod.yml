@@ -1,8 +1,6 @@
 spring:
   cloud:
     nacos:
-      config:
-        server-addr: 175.24.21.25:8848
       discovery:
         server-addr: 175.24.21.25:8848
   application:
