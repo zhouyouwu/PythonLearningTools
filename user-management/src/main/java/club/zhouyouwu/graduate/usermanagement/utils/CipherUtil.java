@@ -27,6 +27,8 @@ public class CipherUtil {
     private static final int KEY_SIZE = 1024;
     private static final int KEY_SIZE_AES = 128;
 
+    public static final String DEFAULT_KEY = "b5659a1fc88c45beb2c1282817643489";
+
     public static class RSA {
 
         /**
@@ -167,14 +169,8 @@ public class CipherUtil {
 //        String qKey = new BASE64Encoder().encode(keyPair.getPrivate().getEncoded());
 //        System.out.println(rsa.encrypt(pKey, text));
 //        System.out.println(rsa.decrypt(qKey, rsa.encrypt(pKey, text)));
-        String salt = BCrypt.gensalt(12);
-        System.out.println(salt);
-        String pp = BCrypt.hashpw(pw, salt);
-
-        System.out.println(salt+" "+pp);
-        //String ww = BCrypt.hashpw(pw, salt);
-        //System.out.println(ww);
-        //System.out.println(BCrypt.checkpw(pw, ww));
-        //System.out.println(rsa.encrypt("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7AUhS5GzYFIefstz6Hp4Mefdg-NzrChDnKCTJIOsfh2d-FgL8oGJvwEVYalkftTRkbPWbcf-DOJuwenQUqhEC8ab3868okHxU8wwF9UM0WR5_hXk9g6zcTIyyn4ttfQ3m51m9kCOn1Q2GoE7Ibva_vUTbErEhOH4rimQXJEffsQIDAQAB",text));
-    }
+        String s = rsa.decrypt("MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALDnkLUdRHrEnkbw6PiMnzjEj_NvUS_ujgFOjGp_YrD1IMObr_v6Ws015t0P8WwjanV8Vn68cNcKQth25yn4rX2CGJ7QbfH4BdmFP47CGpH7Tnx5JlMzLh6r07zQqN9U7IsSusjbDCAGlJG6w7py2QxfeaLeq727FJJDcUN4yBNbAgMBAAECgYEAhgzi5aso4hKtkToqf3Unjf-8yQ24KqcNKkZYNrcSlN8bFb6ay0j5l3jZ2PekzHnFyQMQE_c9VmXrI1ZucqqC40xeD2RMCkYCEsXVscjO9gU1YTG0owgDEgTjaMbKwvT0ZnrYsRdmGaOtrxd9Rk7aHs5WHso8trU7ybMK_CwIzsECQQDwDn6bvKoVYU9V6OvIQa3aZEhkovMPgUo7YXgjduKdF0IlYz50W-z_1cW2OZ3lM9FLiy0ruknKa87OYBUAWVhhAkEAvKdXvP9a0GXHhi50q-50heSjoK6sX2EVNM0m2qdsZClK-OybTcIJBmNQL0MH7X09jMThGGvCcJ-IBYaizqjVOwJBALlERnxFH_L-Ne90orvbzKQW7zQT-oiF3Nd1QvYD46MfdyJJtMKyy3cq8brQPsbMtgOadxMfY6HAkEwAJVUunyECQBXKdpX8IO9FcmCLaSqa5pa4rDXZN0vlGN_6emxzPk_rfR93pRC8QvKb8h0jbvz9pGhoLV_2woTjyIBq5s9cLRUCQC6FoYB5_nltQT6leG-nNucf9fdjZhRhYlie_WNPUvPot2nP_WKuVCYNFj3opJiiWSGAlyjBgYmGz5SBgUNDcK8="
+        , "jUfEbOToBGJ4gBK-2sYG6IDmDJKmmG62jHYsiQ2lH61pa7zoFP3GcgvpbRvWnZvo8Il0miU0B4B1VRs5lTTeKzEOlpCwlP0E2ZDUJEDmUwli7oygN2ljfmvJsNjRakmZsiTOsutExHV6-jXtIZ3KOOqPocW-eYgJSoCwuNTsTP8=");
+        System.out.println(s);
+        }
 }

@@ -28,7 +28,7 @@ public class Result {
     public static Result failed(Object object) {
         Result result = new Result();
         result.setCode(CodeMsg.FAIL_DEFAULT.getCode());
-        result.setResult(result);
+        result.setResult(object);
         return result;
     }
 

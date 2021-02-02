@@ -1,29 +1,20 @@
 package club.zhouyouwu.graduate.usermanagement.vo;
 
-import club.zhouyouwu.graduate.usermanagement.entity.Permission;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.Data;
 
-import javax.validation.Valid;
-import java.util.List;
-
+@Data
 public class UserInfoVo {
-    //作为唯一id
-    //必须不为空的
-    @Valid
-    private String userId;
+    private long userId;
     private String nickname;
     private String password;
-    private String salt;
     private String phoneNo;
-    private List<Permission> permissions;
-
+    //后面赋予
+    //private List<Permission> permissions;
+    //private String salt;
     //可选
     private String signature;
-    private MultipartFile profilePhoto;//存储文件，数据库中存储地址
-
+    private String profilePhoto;//存储地址(用于返回，不用于接收)
     private String eMail;
     private String sex;
     private String birthday;
-
-
 }
