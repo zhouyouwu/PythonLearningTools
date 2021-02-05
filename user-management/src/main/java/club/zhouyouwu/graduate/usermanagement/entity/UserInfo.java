@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class UserInfo implements Serializable {
     private String phoneNo;
     private String signature;
-    private MultipartFile profilePhoto;//存储头像文件，在数据库中存储地址
+    private String profilePhoto;//存储头像文件，在数据库中存储地址
     private String eMail;
     private String sex;
     private String birthday;

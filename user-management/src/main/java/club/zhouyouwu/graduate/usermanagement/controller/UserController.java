@@ -2,6 +2,7 @@ package club.zhouyouwu.graduate.usermanagement.controller;
 
 import club.zhouyouwu.graduate.common.constant.CodeMsg;
 import club.zhouyouwu.graduate.common.entity.Result;
+import club.zhouyouwu.graduate.usermanagement.constant.ConstantInfo;
 import club.zhouyouwu.graduate.usermanagement.entity.User;
 import club.zhouyouwu.graduate.usermanagement.entity.UserInfo;
 import club.zhouyouwu.graduate.usermanagement.service.UserService;
@@ -30,20 +31,11 @@ import java.util.HashMap;
  */
 @RestController
 @RequestMapping("/user")
-@PropertySource("classpath:microservice.properties")
 public class UserController {
     @Autowired
     private StringRedisTemplate redisTemplate;
     @Autowired
     private UserService service;
-    @Value("${USER_ID_NOT_EXIST}")
-    private long USER_ID_NOT_EXIST;
-    @Value("${WORKER_ID}")
-    private long WORKER_ID;
-    @Value("${DATACENTER_ID}")
-    private long DATACENTER_ID;
-    @Value("${PASSWORD_ENCODE_ROUNDS}")
-    private int LOG_ROUNDS;
 
     /**
      * 登录注册时获取公钥
@@ -54,9 +46,9 @@ public class UserController {
      */
     @GetMapping("/{userId}/publicKey")
     public Result getPublicKey(@PathVariable long userId) throws Exception {
-        if (USER_ID_NOT_EXIST == userId) {
+        if (ConstantInfo.USER_ID_NOT_EXIST == userId) {
             //临时id注册或登录以后才固定下来
-            userId = SnowFlake.getInstance(WORKER_ID, DATACENTER_ID).nextId();
+            userId = SnowFlake.getInstance(ConstantInfo.WORKER_ID, ConstantInfo.DATACENTER_ID).nextId();
         }
 
         KeyPair keyPair = new CipherUtil.RSA().getKeyPair();
@@ -118,7 +110,7 @@ public class UserController {
         user.setNickname(userVo.getNickname());
         user.setCipherInfo(ciphertext);
 
-        String salt = BCrypt.gensalt(LOG_ROUNDS);
+        String salt = BCrypt.gensalt(ConstantInfo.LOG_ROUNDS);
         String password = BCrypt.hashpw(userVo.getPassword(), salt);
         user.setSalt(salt);
         user.setPassword(password);

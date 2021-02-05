@@ -18,9 +18,9 @@ public class SnowFlake {
     //2021-1-8 启用
     private long twepoch = 1610085600000L;
     //5位的机器id
-    private long workerIdBits = 5L;
+    private long workerIdBits = 4L;
     //5位的机房id
-    private long datacenterIdBits = 5L;
+    private long datacenterIdBits = 2L;
     //每毫秒内产生的id数 2 的 12次方
     private long sequenceBits = 12L;
     // 这个是二进制运算，就是5 bit最多只能有31个数字，也就是说机器id最多只能是32以内
@@ -128,15 +128,8 @@ public class SnowFlake {
      * @param args
      */
     public static void main(String[] args) {
-        long userId = 1L;
-        UserInfo userInfo = new UserInfo();
-        userInfo.setPhoneNo("123456789");
-
-        String s = new Gson().toJson(userInfo);
-        System.out.println(s);
-
-        UserInfo userInfo1 = new Gson().fromJson(s, UserInfo.class);
-        System.out.println(userInfo1);
+        SnowFlake snowFlake = SnowFlake.getInstance(1,1);
+        System.out.println(snowFlake.nextId());
     }
 }
 
