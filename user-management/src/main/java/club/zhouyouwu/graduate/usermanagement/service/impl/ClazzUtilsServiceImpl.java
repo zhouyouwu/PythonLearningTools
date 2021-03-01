@@ -1,48 +1,67 @@
 package club.zhouyouwu.graduate.usermanagement.service.impl;
 
 import club.zhouyouwu.graduate.usermanagement.entity.Clazz;
-import club.zhouyouwu.graduate.usermanagement.service.TeacherUtilsService;
+import club.zhouyouwu.graduate.usermanagement.mapper.ClazzMapper;
+import club.zhouyouwu.graduate.usermanagement.service.ClazzUtilsService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class TeacherUtilsServiceImpl implements TeacherUtilsService {
+public class ClazzUtilsServiceImpl implements ClazzUtilsService {
+    @Autowired
+    private ClazzMapper clazzMapper;
 
     @Override
     public void createClazz(long userId, long clazzId, String desc) {
         //直接调数据库新增一条
+        clazzMapper.createClazz(userId, clazzId, desc);
     }
 
     @Override
     public List<Clazz> getClazz(long userId) {
-        return null;
+
+        return clazzMapper.getClazz(userId, null);
     }
 
     @Override
     public Clazz getClazz(long userId, long clazzId) {
-        return null;
+
+        return clazzMapper.getClazz(userId, clazzId).get(0);
     }
 
     @Override
     public void delClazz(long clazzId) {
 
+        clazzMapper.delClazz(clazzId);
     }
 
     @Override
     public void joinStudent(long clazzId, long studentId) {
 
+        clazzMapper.joinStudent(clazzId, studentId);
     }
 
     @Override
+    public void handleApplication(long clazzId, long studentId, int operation) {
+
+        clazzMapper.handleApplication(clazzId, studentId, operation);
+    }
+
+    /**
+     * 批量要请学生加入
+     * @param clazzId 班级
+     * @param studentIds 不属于班级的学生才进入此方法
+     */
+    @Override
     public void joinStudent(long clazzId, List<Long> studentIds) {
-        //验证学生是否存在
-        //给所有存在的学生发送邀请
-        //没有成功的要返回
+
+        clazzMapper.joinStudents(studentIds, clazzId);
     }
 
     @Override

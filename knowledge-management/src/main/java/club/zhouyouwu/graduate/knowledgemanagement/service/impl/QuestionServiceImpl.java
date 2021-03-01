@@ -10,10 +10,14 @@ import java.util.List;
 @Service
 public class QuestionServiceImpl implements QuestionService {
     @Override
-    public List<Long> getUnsolvedQuestion(long userId) {
+    public List<Question> getUnsolvedQuestions(long userId, int count) {
 
-        List<Long> test = Arrays.asList(123L,456L);
-        return test;
+        return null;
+    }
+
+    @Override
+    public List<Question> getUnsolvedQuestions(long userId, int count, long typeId) {
+        return null;
     }
 
     @Override

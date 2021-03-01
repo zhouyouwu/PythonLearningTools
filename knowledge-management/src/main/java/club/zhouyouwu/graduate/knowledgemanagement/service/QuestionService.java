@@ -5,10 +5,11 @@ import org.springframework.cloud.openfeign.FeignClient;
 
 import java.util.List;
 
-@FeignClient
 public interface QuestionService {
 
-    List<Long> getUnsolvedQuestion(long userId);
+    List<Question> getUnsolvedQuestions(long userId, int count);
+
+    List<Question> getUnsolvedQuestions(long userId, int count, long typeId);
 
     Question getQuestion(long quesId);
 }
