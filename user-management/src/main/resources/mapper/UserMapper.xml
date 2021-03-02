@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="club.zhouyouwu.graduate.usermanagement.mapper.UserMapper">
+    <resultMap id="Role" type="club.zhouyouwu.graduate.usermanagement.entity.Role">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <resultMap id="UserInfo" type="club.zhouyouwu.graduate.usermanagement.entity.UserInfo">
+        <result property="nickname" column="nickname"/>
+        <result property="phoneNo" column="phone_no"/>
+        <result property="birthday" column="birthday"/>
+        <result property="eMail" column="e_mail"/>
+        <result property="profilePhoto" column="profile_photo"/>
+        <result property="sex" column="sex"/>
+        <result property="signature" column="signature"/>
+    </resultMap>
+
+    <resultMap id="AuthInfo" type="club.zhouyouwu.graduate.usermanagement.entity.User">
+        <id property="userId" column="user_id"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <collection property="roles" resultMap="Role"/>
+    </resultMap>
+
+    <resultMap id="DetailInfo" type="club.zhouyouwu.graduate.usermanagement.entity.User">
+        <id property="userId" column="user_id"/>
+        <association property="userInfo" resultMap="UserInfo"/>
+    </resultMap>
+    <update id="updateUserInfo">
+        update user_info
+        <set>
+            <if test="userInfo.nickname != null">
+                nickname = #{userInfo.nickname}
+            </if>
+            <if test="userInfo.phoneNo != null">
+                phone_no = #{userInfo.phoneNo}
+            </if>
+            <if test="userInfo.signature != null">
+                signature = #{userInfo.signature}
+            </if>
+            <if test="userInfo.profilePhoto != null">
+                profile_photo = #{userInfo.profilePhoto}
+            </if>
+            <if test="userInfo.eMail != null">
+                e_mail = #{userInfo.eMail}
+            </if>
+            <if test="userInfo.sex != null">
+                sex = #{userInfo.sex}
+            </if>
+            <if test="userInfo.birthday != null">
+                birthday = #{userInfo.birthday}
+            </if>
+        </set>
+        where user_id = #{userId}
+        limit 1
+    </update>
+
+    <select id="getUserAuthInfo" resultMap="AuthInfo">
+        select a.user_id, a.password, a.salt, c.id, c.name, c.description
+        from user_info a
+        left join user_role_relation b on a.user_id = b.user_id
+        left join role c on c.id = b.role_id
+        where a.user_id = #{userId}
+        limit 1
+    </select>
+
+    <select id="getUserDetailInfo" resultMap="DetailInfo">
+        select user_id, phone_no, birthday, e_mail, profile_photo, sex, signature
+        from user_info
+        where user_id = #{userId}
+        limit 1
+    </select>
+
+    <insert id="createUser">
+        insert into user_info
+        (user_id, password, phone_no, signature, profile_photo, e_mail, sex, birthday, nickname)
+        values(#{userId},#{password},#{phoneNo},#{signature},#{profilePhoto},#{eMail},#{sex},#{birthday},#{nickname})
+    </insert>
+</mapper>

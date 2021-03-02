@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  */
 @Data
 public class UserInfo implements Serializable {
+    private String nickname;
     private String phoneNo;
     private String signature;
     private String profilePhoto;//存储头像文件，在数据库中存储地址

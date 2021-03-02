@@ -11,8 +11,6 @@ import club.zhouyouwu.graduate.usermanagement.utils.SnowFlake;
 import club.zhouyouwu.graduate.usermanagement.vo.UserInfoVo;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +33,7 @@ public class UserController {
     @Autowired
     private StringRedisTemplate redisTemplate;
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     /**
      * 登录注册时获取公钥
@@ -44,7 +42,7 @@ public class UserController {
      * @return 用户id+公钥
      * @throws Exception
      */
-    @GetMapping("/{userId}/publicKey")
+    @GetMapping("/{userId}/publicKey")//todo 没必要暂不删除，不再使用
     public Result getPublicKey(@PathVariable long userId) throws Exception {
         if (ConstantInfo.USER_ID_NOT_EXIST == userId) {
             //临时id注册或登录以后才固定下来
@@ -62,26 +60,14 @@ public class UserController {
         return Result.ok(map);
     }
 
+    //创建了token所以post
     @PostMapping("/{userId}/token")
-    public Result login(@PathVariable long userId, String password) throws Exception {
-        String privateKey = redisTemplate.boundValueOps(Long.toString(userId)).get();
+    public Result login(@PathVariable long userId, @RequestParam String password) throws Exception {
 
-        CipherUtil.RSA rsa = new CipherUtil.RSA();
-        String dePassword = rsa.decrypt(privateKey, password);
+        if (userService.loginCheck(userId, password)) {
+            User user = userService.getUserInfo(userId, password);
 
-        String token;
-        if (service.loginCheck(userId, dePassword)) {
-            String text = userId + "&" + (new Date().getTime() + 1000 * 60 * 30);
-            CipherUtil.AES aes = new CipherUtil.AES();
-
-            token = aes.encrypt(CipherUtil.DEFAULT_KEY, text);
-            User user = service.getUserInfo(userId, password);
-
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("user", user);
-            map.put("token", token);
-
-            return Result.ok(map);
+            return Result.ok(user);
         }
 
         Result result = new Result();
@@ -91,7 +77,7 @@ public class UserController {
     }
 
     @PostMapping("/{userId}")//todo 区分权限
-    public Result register(@PathVariable long userId, String userVoString) throws Exception {
+    public Result register(@PathVariable long userId, @RequestParam String userVoString) throws Exception {
         String privateKey = redisTemplate.boundValueOps(Long.toString(userId)).get();
 
         CipherUtil.RSA rsa = new CipherUtil.RSA();
@@ -100,22 +86,27 @@ public class UserController {
         UserInfoVo userVo = new Gson().fromJson(userVoString, UserInfoVo.class);
         UserInfo info = new UserInfo();
         info.setPhoneNo(userVo.getPhoneNo());
-
-        CipherUtil.AES aes = new CipherUtil.AES();
-        String plaintext = aes.encrypt(userVo.getPassword(), new Gson().toJson(info));
-        String ciphertext = aes.encrypt(userVo.getPassword(), plaintext);
+        info.setNickname(userVo.getNickname());
+        info.setProfilePhoto(userVo.getProfilePhoto());
+        info.setEMail(userVo.getEMail());
 
         User user = new User();
         user.setUserId(userId);
-        user.setNickname(userVo.getNickname());
-        user.setCipherInfo(ciphertext);
+        user.setUserInfo(info);
 
         String salt = BCrypt.gensalt(ConstantInfo.LOG_ROUNDS);
         String password = BCrypt.hashpw(userVo.getPassword(), salt);
         user.setSalt(salt);
         user.setPassword(password);
 
-        service.createUser(user);
+        userService.createUser(user);
         return Result.ok("注册成功！");
+    }
+
+    @PutMapping("/{userId}")
+    public Result updateInfo(@PathVariable long userId, @RequestBody UserInfo userinfo){
+
+        userService.updateUserInfo(userId, userinfo);
+        return Result.ok("更新成功");
     }
 }
