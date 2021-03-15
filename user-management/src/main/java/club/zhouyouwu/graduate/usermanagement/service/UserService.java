@@ -11,11 +11,19 @@ public interface UserService {
      * @param password
      * @return
      */
-    boolean loginCheck(long userId, String password);
+    boolean loginCheck(Long userId, String password);
 
-    User getUserInfo(long userId, String mode);
+    User getUserInfo(Long userId, String mode);
 
     void createUser(User user);
 
-    void updateUserInfo(long userId, UserInfo userinfo);
+    void updateUserInfo(Long userId, UserInfo userinfo);
+
+    void updateProfilePhoto(Long userId, String fileName);
+
+    void updatePassword(String oldPassword, String newPassword, Long userId);
+
+    void setUserRole(Long userId, Integer roleId);
+
+    void delUser(long userId);
 }

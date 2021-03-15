@@ -25,6 +25,12 @@
 			<scope>test</scope>
 			<version>2.2.0.RELEASE</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.markdownj</groupId>
+			<artifactId>markdownj-core</artifactId>
+			<version>0.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>

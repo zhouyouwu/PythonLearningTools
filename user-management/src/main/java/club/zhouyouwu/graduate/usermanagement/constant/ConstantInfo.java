@@ -14,9 +14,17 @@ public class ConstantInfo {
     @Value("${DATACENTER_ID}")
     public static long DATACENTER_ID;
 
+    @Value("${DATACENTER_ID_FOR_IMAGE}")
+    public static long DATACENTER_ID_FOR_IMAGE;
+
     @Value("${PASSWORD_ENCODE_ROUNDS}")
     public static int LOG_ROUNDS;
 
     @Value("${TEMP_FILE_PATH}")
     public static String TEMP_FILE_PATH;
+
+    @Value("${IMAGE_PATH}")
+    public static String IMAGE_PATH;
+
+
 }

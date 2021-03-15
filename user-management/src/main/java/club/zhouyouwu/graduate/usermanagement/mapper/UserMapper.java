@@ -13,7 +13,19 @@ public interface UserMapper {
 
     User getUserDetailInfo(@Param("userId") long userId);
 
-    void updateUserInfo(long userId, UserInfo userinfo);
+    void updateUserDetailInfo(long userId, UserInfo userinfo);
+    //仅修改密码，不支持改角色，消耗太大
+    void updateUserAuthInfo(User user);
 
     void createUser(User user);
+
+    int checkHasRole(long userId, int roleId);
+
+    void setRole(long userId, int roleId);
+
+    void delRole(long userId, int roleId);
+
+    void updateProfilePhoto(Long userId, String fileName);
+
+    void delUser(long userId);
 }

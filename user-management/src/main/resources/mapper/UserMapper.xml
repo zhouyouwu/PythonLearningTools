@@ -28,7 +28,7 @@
         <id property="userId" column="user_id"/>
         <association property="userInfo" resultMap="UserInfo"/>
     </resultMap>
-    <update id="updateUserInfo">
+    <update id="updateUserDetailInfo">
         update user_info
         <set>
             <if test="userInfo.nickname != null">
@@ -57,8 +57,15 @@
         limit 1
     </update>
 
+    <update id="updateUserAuthInfo">
+        update user_info
+        set password = #{user.password}
+        where user_id = #{user.userId}
+        limit 1
+    </update>
+
     <select id="getUserAuthInfo" resultMap="AuthInfo">
-        select a.user_id, a.password, a.salt, c.id, c.name, c.description
+        select a.user_id, a.password, c.id, c.name, c.description
         from user_info a
         left join user_role_relation b on a.user_id = b.user_id
         left join role c on c.id = b.role_id
@@ -78,4 +85,38 @@
         (user_id, password, phone_no, signature, profile_photo, e_mail, sex, birthday, nickname)
         values(#{userId},#{password},#{phoneNo},#{signature},#{profilePhoto},#{eMail},#{sex},#{birthday},#{nickname})
     </insert>
+
+    <select id="checkHasRole" resultType="java.lang.Integer">
+        select 1
+        from user_role_relation
+        where user_id = #{userId}
+        and role_id = #{roleId}
+        limit 1
+    </select>
+
+    <insert id="setRole">
+        insert into user_role_relation
+        (user_id, role_id)
+        values(#{userId}, #{roleId})
+    </insert>
+
+    <delete id="delRole">
+        delete from user_role_relation
+        where user_id = #{userId}
+        and role_id = #{roleId}
+        limit 1
+    </delete>
+
+    <update id="updateProfilePhoto">
+        update user_info
+        set profile_photo = #{fileName}
+        where user_id = #{userId}
+        limit 1
+    </update>
+
+    <delete id="delUser">
+        delete from user_info
+        where user_id = #{userId}
+        limit 1
+    </delete>
 </mapper>

@@ -7,7 +7,7 @@ import club.zhouyouwu.graduate.usermanagement.entity.Clazz;
 import club.zhouyouwu.graduate.usermanagement.entity.Student;
 import club.zhouyouwu.graduate.usermanagement.service.StudentUtilsService;
 import club.zhouyouwu.graduate.usermanagement.service.ClazzUtilsService;
-import club.zhouyouwu.graduate.usermanagement.utils.Excel;
+import club.zhouyouwu.graduate.usermanagement.utils.ExcelUtil;
 import club.zhouyouwu.graduate.usermanagement.utils.SnowFlake;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -108,7 +108,7 @@ public class TeacherUtilsController {
     public Result joinStudent(@PathVariable long userId, @PathVariable long clazzId,
                               @RequestParam("excel") MultipartFile excel) throws IOException {
 
-        XSSFWorkbook workbook = Excel.getExcel(excel);
+        XSSFWorkbook workbook = ExcelUtil.getExcel(excel);
 
         List<Long> studentIds = clazzUtils.getStudentIds(workbook);
 

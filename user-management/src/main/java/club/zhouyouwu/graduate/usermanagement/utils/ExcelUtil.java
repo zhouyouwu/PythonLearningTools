@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Slf4j
-public class Excel {
+public class ExcelUtil {
     public static XSSFWorkbook getExcel(MultipartFile excel) throws IOException{
 
         log.info("接收文件...");

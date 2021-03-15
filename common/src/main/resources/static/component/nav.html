@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>nav</title>
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/plugin/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/nav.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar-wrapper">
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">PLT</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a data-href="../../templates/content.html">概况</a></li>
+                    <li><a data-href="../../templates/user-page.html">用户</a></li>
+                    <li><a data-href="../../templates/knowledge-page.html">资料</a></li>
+                    <li><a data-href="../../templates/question-page.html">题库</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="iframe-box">
+    <iframe frameborder="0" class="iframe-content" id="iframeMain" src="../../templates/content.html"></iframe>
+</div>
+
+</body>
+<script src="../../static/plugin/jquery/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="../../static/plugin/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/nav.js"></script>
+</html>

@@ -7,6 +7,7 @@ import club.zhouyouwu.graduate.usermanagement.entity.User;
 import club.zhouyouwu.graduate.usermanagement.entity.UserInfo;
 import club.zhouyouwu.graduate.usermanagement.service.UserService;
 import club.zhouyouwu.graduate.usermanagement.utils.CipherUtil;
+import club.zhouyouwu.graduate.usermanagement.utils.ImageUtil;
 import club.zhouyouwu.graduate.usermanagement.utils.SnowFlake;
 import club.zhouyouwu.graduate.usermanagement.vo.UserInfoVo;
 import com.google.gson.Gson;
@@ -14,10 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.KeyPair;
 import java.util.Base64;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -108,5 +110,28 @@ public class UserController {
 
         userService.updateUserInfo(userId, userinfo);
         return Result.ok("更新成功");
+    }
+
+    @GetMapping("/{userId}")
+    public Result getUserInfo(@PathVariable long userId){
+
+        return Result.ok(userService.getUserInfo(userId, "Detail"));
+    }
+
+    @DeleteMapping("/{userId}")
+    public Result delUser(@PathVariable long userId){
+        userService.delUser(userId);
+
+        return Result.ok("删除成功");
+    }
+
+    @PostMapping("/{userId}/photo")
+    public Result updatePhoto(@PathVariable long userId, MultipartFile file) throws IOException {
+
+        String fileName = SnowFlake.getInstance(ConstantInfo.WORKER_ID,ConstantInfo.DATACENTER_ID_FOR_IMAGE).nextId()+".jpg";
+        ImageUtil.storeImage(file, fileName);
+
+        userService.updateProfilePhoto(userId, fileName);
+        return Result.ok("头像更换成功");
     }
 }
