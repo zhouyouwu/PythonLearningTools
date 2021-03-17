@@ -1,7 +1,7 @@
 package club.zhouyouwu.graduate.usermanagement.mapper;
 
-import club.zhouyouwu.graduate.usermanagement.entity.User;
-import club.zhouyouwu.graduate.usermanagement.entity.UserInfo;
+import club.zhouyouwu.graduate.usermanagement.model.entity.User;
+import club.zhouyouwu.graduate.usermanagement.model.entity.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

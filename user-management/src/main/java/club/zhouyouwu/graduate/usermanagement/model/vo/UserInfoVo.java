@@ -1,4 +1,4 @@
-package club.zhouyouwu.graduate.usermanagement.vo;
+package club.zhouyouwu.graduate.usermanagement.model.vo;
 
 import lombok.Data;
 

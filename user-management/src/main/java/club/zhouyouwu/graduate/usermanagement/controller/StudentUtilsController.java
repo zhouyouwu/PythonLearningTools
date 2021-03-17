@@ -6,7 +6,6 @@ import club.zhouyouwu.graduate.usermanagement.feign.AnalysisFeign;
 import club.zhouyouwu.graduate.usermanagement.feign.KnowledgeFeign;
 import club.zhouyouwu.graduate.usermanagement.service.ClazzUtilsService;
 import club.zhouyouwu.graduate.usermanagement.service.StudentUtilsService;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("Student")
-@RequiresRoles("student")
 public class StudentUtilsController {
     @Autowired
     private StudentUtilsService studentUtils;

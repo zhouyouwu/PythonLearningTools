@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="club.zhouyouwu.graduate.knowledgemanagement.mapper.KnowledgeMapper">
+    <insert id="setKnowledge" useGeneratedKeys="true" keyColumn="know_id" keyProperty="knowId">
+    insert into knowledge
+    (know_url, type_id)
+    values(#{path}, #{typeId})
+    </insert>
+
+    <delete id="delKnowledge">
+        delete from knowledge
+        where know_id = #{knowId}
+        limit 1
+    </delete>
+</mapper>

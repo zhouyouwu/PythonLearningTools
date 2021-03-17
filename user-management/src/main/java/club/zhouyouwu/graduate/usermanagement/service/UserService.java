@@ -1,7 +1,7 @@
 package club.zhouyouwu.graduate.usermanagement.service;
 
-import club.zhouyouwu.graduate.usermanagement.entity.User;
-import club.zhouyouwu.graduate.usermanagement.entity.UserInfo;
+import club.zhouyouwu.graduate.usermanagement.model.entity.User;
+import club.zhouyouwu.graduate.usermanagement.model.entity.UserInfo;
 
 public interface UserService {
 

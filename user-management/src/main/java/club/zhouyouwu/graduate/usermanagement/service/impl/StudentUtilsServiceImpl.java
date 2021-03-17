@@ -1,6 +1,6 @@
 package club.zhouyouwu.graduate.usermanagement.service.impl;
 
-import club.zhouyouwu.graduate.usermanagement.entity.Student;
+import club.zhouyouwu.graduate.usermanagement.model.entity.Student;
 import club.zhouyouwu.graduate.usermanagement.mapper.ClazzMapper;
 import club.zhouyouwu.graduate.usermanagement.service.StudentUtilsService;
 import org.springframework.beans.factory.annotation.Autowired;

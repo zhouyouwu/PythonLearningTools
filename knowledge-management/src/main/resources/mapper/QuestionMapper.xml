@@ -4,14 +4,21 @@
     <sql id="normal_question_column">
         ques_id, ques_topic, ques_options, ques_answer, ques_type
     </sql>
-    <resultMap id="Question" type="club.zhouyouwu.graduate.knowledgemanagement.entity.Question">
+    <resultMap id="NormalQuestion" type="club.zhouyouwu.graduate.knowledgemanagement.model.entity.NormalQuestion">
         <id property="quesId" column="ques_id"/>
         <result property="quesAnswer" column="ques_answer"/>
         <result property="quesOptions" column="ques_options"/>
         <result property="quesTopic" column="ques_topic"/>
         <result property="quesType" column="ques_type"/>
     </resultMap>
-    <select id="getUnsolvedQuestions" resultMap="Question">
+    <resultMap id="ProgramQuestion" type="club.zhouyouwu.graduate.knowledgemanagement.model.entity.ProgramQuestion">
+        <id property="quesId" column="ques_id"/>
+        <result property="quesAnswer" column="ques_answer"/>
+        <result property="quesOptions" column="ques_options"/>
+        <result property="quesTopic" column="ques_topic"/>
+        <result property="quesType" column="ques_type"/>
+    </resultMap>
+    <select id="getUnsolvedQuestions" resultMap="NormalQuestion">
         select <include refid="normal_question_column"/>
         from normal_question a
         left join user_question_solve b on a.ques_id = b.ques_id
@@ -23,4 +30,67 @@
         order by rand()
         limit #{count}
     </select>
+    <select id="getNormalQuestionById">
+
+    </select>
+    <select id="getProgramQuestionById">
+
+    </select>
+
+    <insert id="setNormalQuestion">
+        insert into normal_question
+        (ques_id, ques_topic, ques_options, ques_answer, ques_type)
+        values(#{question.quesId}, #{question.quesTopic}, #{question.quesOptions},
+         #{question.quesAnswer}, #{question.quesType})
+    </insert>
+    <insert id="setProgramQuestion">
+        insert into program_question
+        (ques_id, ques_topic, ques_type)
+        values(#{question.quesId}, #{question.quesTopic}, #{question.quesType})
+    </insert>
+
+    <delete id="delNormalQuestion">
+        delete from normal_question
+        where ques_id = #{quesId}
+        limit 1
+    </delete>
+    <delete id="delProgramQuestion">
+        delete from program_question
+        where ques_id = #{quesId}
+        limit 1
+    </delete>
+
+    <update id="mdfProgramQuestion">
+        update program_question
+        <set>
+            <if test="question.quesTopic != null">
+                ques_topic = #{question.quesTopic}
+            </if>
+            <if test="question.quesType != null">
+                ques_type = #{question.quesType}
+            </if>
+        </set>
+        where ques_id = #{question.quesId}
+        limit 1
+    </update>
+
+    <update id="mdfNormalQuestion">
+        update normal_question
+        <set>
+            <if test="question.quesTopic != null">
+                ques_topic = #{question.quesTopic}
+            </if>
+            <if test="question.quesType != null">
+                ques_type = #{question.quesType}
+            </if>
+            <if test="question.quesOptions != null">
+                ques_options = #{question.quesOptions}
+            </if>
+            <if test="question.quesAnswer">
+                ques_answer = #{question.quesAnswer}
+            </if>
+        </set>
+        where ques_id = #{question.quesId}
+        limit 1
+    </update>
 </mapper>

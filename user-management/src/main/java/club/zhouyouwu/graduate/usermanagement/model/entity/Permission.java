@@ -1,9 +1,9 @@
-package club.zhouyouwu.graduate.usermanagement.entity;
+package club.zhouyouwu.graduate.usermanagement.model.entity;
 
 import lombok.Data;
 
 @Data
-public class Role {
+public class Permission {
 
     private int id;
     private String name;

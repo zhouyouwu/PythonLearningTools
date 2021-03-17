@@ -6,7 +6,7 @@ spring:
   application:
     name: analysis
   datasource:
-    url: jdbc:mysql://localhost:3306/PythonLearningTools?serverTimezone=Asia/shanghai
+    url: jdbc:mysql://localhost:3306/PythonLearningTools?serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 12345678

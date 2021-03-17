@@ -1,8 +1,8 @@
 package club.zhouyouwu.graduate.usermanagement.service.impl;
 
 import club.zhouyouwu.graduate.usermanagement.constant.ConstantInfo;
-import club.zhouyouwu.graduate.usermanagement.entity.User;
-import club.zhouyouwu.graduate.usermanagement.entity.UserInfo;
+import club.zhouyouwu.graduate.usermanagement.model.entity.User;
+import club.zhouyouwu.graduate.usermanagement.model.entity.UserInfo;
 import club.zhouyouwu.graduate.usermanagement.exception.BadRequestException;
 import club.zhouyouwu.graduate.usermanagement.mapper.UserMapper;
 import club.zhouyouwu.graduate.usermanagement.service.UserService;

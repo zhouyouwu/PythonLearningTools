@@ -1,6 +1,6 @@
 package club.zhouyouwu.graduate.usermanagement.service;
 
-import club.zhouyouwu.graduate.usermanagement.entity.Student;
+import club.zhouyouwu.graduate.usermanagement.model.entity.Student;
 
 import java.util.List;
 

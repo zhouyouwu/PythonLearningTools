@@ -1,11 +1,9 @@
-package club.zhouyouwu.graduate.usermanagement.entity;
+package club.zhouyouwu.graduate.usermanagement.model.entity;
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 

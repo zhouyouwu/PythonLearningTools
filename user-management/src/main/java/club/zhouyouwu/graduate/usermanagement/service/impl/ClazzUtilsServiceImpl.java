@@ -1,6 +1,6 @@
 package club.zhouyouwu.graduate.usermanagement.service.impl;
 
-import club.zhouyouwu.graduate.usermanagement.entity.Clazz;
+import club.zhouyouwu.graduate.usermanagement.model.entity.Clazz;
 import club.zhouyouwu.graduate.usermanagement.mapper.ClazzMapper;
 import club.zhouyouwu.graduate.usermanagement.service.ClazzUtilsService;
 import org.apache.poi.ss.usermodel.Cell;

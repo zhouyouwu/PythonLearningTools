@@ -3,14 +3,13 @@ package club.zhouyouwu.graduate.usermanagement.controller;
 import club.zhouyouwu.graduate.common.entity.Result;
 import club.zhouyouwu.graduate.usermanagement.constant.ConstantInfo;
 import club.zhouyouwu.graduate.usermanagement.constant.JoinClazzOperation;
-import club.zhouyouwu.graduate.usermanagement.entity.Clazz;
-import club.zhouyouwu.graduate.usermanagement.entity.Student;
-import club.zhouyouwu.graduate.usermanagement.service.StudentUtilsService;
+import club.zhouyouwu.graduate.usermanagement.model.entity.Clazz;
+import club.zhouyouwu.graduate.usermanagement.model.entity.Student;
 import club.zhouyouwu.graduate.usermanagement.service.ClazzUtilsService;
+import club.zhouyouwu.graduate.usermanagement.service.StudentUtilsService;
 import club.zhouyouwu.graduate.usermanagement.utils.ExcelUtil;
 import club.zhouyouwu.graduate.usermanagement.utils.SnowFlake;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequiresRoles("teacher")
 @RequestMapping("Teacher")
 public class TeacherUtilsController {
     @Autowired

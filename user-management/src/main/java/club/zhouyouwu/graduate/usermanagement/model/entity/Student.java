@@ -1,4 +1,4 @@
-package club.zhouyouwu.graduate.usermanagement.entity;
+package club.zhouyouwu.graduate.usermanagement.model.entity;
 
 import lombok.Data;
 
