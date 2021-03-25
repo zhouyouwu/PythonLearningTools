@@ -24,6 +24,15 @@ public class Result {
         return result;
     }
 
+    public static Result ok(Object object, String msg) {
+        Result result = new Result();
+        result.setCode(CodeMsg.SUCCESS.getCode());
+        result.setMsg(msg);
+        result.setResult(object);
+        return result;
+    }
+
+
     //返回信息失败
     public static Result failed(Object object) {
         Result result = new Result();

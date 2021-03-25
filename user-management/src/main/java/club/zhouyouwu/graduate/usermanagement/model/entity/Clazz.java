@@ -6,8 +6,8 @@ import java.util.List;
 
 @Data
 public class Clazz {
-    private long clazzId;
-    private long teacherId;
+    private Long clazzId;
+    private Long teacherId;
     private String desc;
     private List<Student> students;
 }

@@ -1,10 +1,5 @@
 package club.zhouyouwu.graduate.usermanagement.utils;
 
-import club.zhouyouwu.graduate.usermanagement.entity.UserInfo;
-import com.google.gson.Gson;
-
-import java.util.Date;
-
 public class SnowFlake {
     private static SnowFlake snowFlake;
 

@@ -23,25 +23,24 @@ spring:
       #    路由定义
       routes:
         - id: baidu
-          uri: https://www.baidu.com
+          uri: http://localhost:6366
           predicates:
-            - Path=/baidu/**
-          filters:
-            - StripPrefix=1
+            - Path=/user/**
 
         - id: sina
-          uri: https://www.sina.com.cn/
+          uri: https://www.baidu.com/
           predicates:
             - Path=/sina/**
-          filters:
-            - StripPrefix=1
+
 
 org:
   my:
     jwt:
       #跳过认证的路由
       skip-auth-urls:
-        - /baidu
+        - /user/login
+        - /user/admin
+        - /sina
       ############################################
       #   有效时长
       #     单位：d:天、h:小时、m:分钟、s:秒

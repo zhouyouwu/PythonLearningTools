@@ -28,7 +28,7 @@ public class StudentUtilsController {
 
         long typeId = analysisFeign.analysisKnowledgeType(userId);
         //调用analysis的方法，判断用户应该侧重哪方面练习 long typeId
-        List<Long> quesIds = (List<Long>) knowledgeFeign.getUnsolvedQuestions(userId, count, typeId).getResult();
+        List<Long> quesIds = (List<Long>) knowledgeFeign.getUnsolvedQuestions(userId, count).getResult();
 
         return Result.ok(quesIds);
     }

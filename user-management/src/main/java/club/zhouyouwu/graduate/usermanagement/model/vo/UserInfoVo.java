@@ -1,14 +1,16 @@
 package club.zhouyouwu.graduate.usermanagement.model.vo;
 
+import club.zhouyouwu.graduate.usermanagement.model.entity.Role;
+import club.zhouyouwu.graduate.usermanagement.model.entity.User;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-//注册时使用的收集类
+//用户信息+权限
 public class UserInfoVo {
-    private long userId;
-    private String nickname;
-    private String password;
-    private String phoneNo;
-    private String profilePhoto;//存储地址(用于返回，不用于接收)
-    private String eMail;
+
+    private User user;
+
+    private List<Role> roles;
 }

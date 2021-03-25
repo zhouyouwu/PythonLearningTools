@@ -1,20 +1,26 @@
 package club.zhouyouwu.graduate.gateway.config;
 
 import club.zhouyouwu.graduate.gateway.dto.Resp;
-import club.zhouyouwu.graduate.gateway.util.JwtUtil;
+import club.zhouyouwu.graduate.gateway.dto.Result;
+import club.zhouyouwu.graduate.gateway.feign.UserFeign;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -23,6 +29,7 @@ import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Component
 @ConfigurationProperties("org.my.jwt")
@@ -33,11 +40,10 @@ public class JwtTokenFilter implements GlobalFilter, Ordered {
 
     private String[] skipAuthUrls;
 
-    private final ObjectMapper objectMapper;
-
-    public JwtTokenFilter(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private UserFeign userFeign;
 
     /**
      * 过滤器
@@ -63,19 +69,16 @@ public class JwtTokenFilter implements GlobalFilter, Ordered {
             return authErro(resp, "请登陆");
         } else {
             //有token
-            try {
-                JwtUtil.checkToken(token, objectMapper);
+            Result result = userFeign.checkToken(token);
+            if (result.getCode() == 0) {
                 return chain.filter(exchange);
-            } catch (ExpiredJwtException e) {
-                log.error(e.getMessage(), e);
-                if (e.getMessage().contains("Allowed clock skew")) {
+            } else {
+                log.error(result.getMsg());
+                if (result.getMsg().contains("Allowed clock skew")) {
                     return authErro(resp, "认证过期");
                 } else {
                     return authErro(resp, "认证失败");
                 }
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                return authErro(resp, "认证失败");
             }
         }
     }
@@ -103,7 +106,13 @@ public class JwtTokenFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -100;
+        return 1;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public HttpMessageConverters messageConverters(ObjectProvider<HttpMessageConverter<?>> converters) {
+        return new HttpMessageConverters(converters.orderedStream().collect(Collectors.toList()));
     }
 
 }

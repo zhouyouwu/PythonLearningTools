@@ -7,7 +7,9 @@
         <result property="description" column="description"/>
     </resultMap>
 
-    <resultMap id="UserInfo" type="club.zhouyouwu.graduate.usermanagement.model.entity.UserInfo">
+    <resultMap id="User" type="club.zhouyouwu.graduate.usermanagement.model.entity.User">
+        <id property="userId" column="user_id"/>
+        <result property="password" column="password"/>
         <result property="nickname" column="nickname"/>
         <result property="phoneNo" column="phone_no"/>
         <result property="birthday" column="birthday"/>
@@ -15,44 +17,45 @@
         <result property="profilePhoto" column="profile_photo"/>
         <result property="sex" column="sex"/>
         <result property="signature" column="signature"/>
+        <result property="wxOpenid" column="wx_openid"/>
+        <result property="sessionKey" column="session_key"/>
+        <result property="lastLoginTime" column="last_login_time"/>
     </resultMap>
 
-    <resultMap id="AuthInfo" type="club.zhouyouwu.graduate.usermanagement.model.entity.User">
-        <id property="userId" column="user_id"/>
-        <result property="password" column="password"/>
-        <result property="salt" column="salt"/>
+    <resultMap id="UserInfoVo" type="club.zhouyouwu.graduate.usermanagement.model.vo.UserInfoVo">
+        <collection property="user" resultMap="User"/>
         <collection property="roles" resultMap="Role"/>
     </resultMap>
 
-    <resultMap id="DetailInfo" type="club.zhouyouwu.graduate.usermanagement.model.entity.User">
-        <id property="userId" column="user_id"/>
-        <association property="userInfo" resultMap="UserInfo"/>
-    </resultMap>
-    <update id="updateUserDetailInfo">
+    <update id="updateUserInfo">
         update user_info
-        <set>
-            <if test="userInfo.nickname != null">
-                nickname = #{userInfo.nickname}
+        set
+            session_key = #{user.sessionKey}
+            and last_login_time = #{user.lastLoginTime}
+            <if test="user.password !=  null">
+                and password = #{user.password}
             </if>
-            <if test="userInfo.phoneNo != null">
-                phone_no = #{userInfo.phoneNo}
+            <if test="user.nickname != null">
+                and nickname = #{user.nickname}
             </if>
-            <if test="userInfo.signature != null">
-                signature = #{userInfo.signature}
+            <if test="user.phoneNo != null">
+                and phone_no = #{user.phoneNo}
             </if>
-            <if test="userInfo.profilePhoto != null">
-                profile_photo = #{userInfo.profilePhoto}
+            <if test="user.signature != null">
+                and signature = #{user.signature}
             </if>
-            <if test="userInfo.eMail != null">
-                e_mail = #{userInfo.eMail}
+            <if test="user.profilePhoto != null">
+                and profile_photo = #{user.profilePhoto}
             </if>
-            <if test="userInfo.sex != null">
-                sex = #{userInfo.sex}
+            <if test="user.eMail != null">
+                and e_mail = #{user.eMail}
             </if>
-            <if test="userInfo.birthday != null">
-                birthday = #{userInfo.birthday}
+            <if test="user.sex != null">
+                and sex = #{user.sex}
             </if>
-        </set>
+            <if test="user.birthday != null">
+                and birthday = #{user.birthday}
+            </if>
         where user_id = #{userId}
         limit 1
     </update>
@@ -64,46 +67,69 @@
         limit 1
     </update>
 
-    <select id="getUserAuthInfo" resultMap="AuthInfo">
-        select a.user_id, a.password, c.id, c.name, c.description
+<!--    <select id="getUserAuthInfo" resultMap="AuthInfo">-->
+<!--        select a.user_id, a.password, c.id, c.name, c.description-->
+<!--        from user_info a-->
+<!--        left join user_role_relation b on a.user_id = b.user_id-->
+<!--        left join role c on c.id = b.role_id-->
+<!--        where a.user_id = #{userId}-->
+<!--        limit 1-->
+<!--    </select>-->
+
+    <select id="getUserByUserid" resultMap="UserInfoVo">
+        select a.user_id, a.password, a.phone_no, a.birthday,
+               a.e_mail, a.profile_photo, a.sex, a.signature,
+               a.nickname, a.wx_openid, a.session_key, c.id,
+               c.name, c.description
         from user_info a
         left join user_role_relation b on a.user_id = b.user_id
         left join role c on c.id = b.role_id
         where a.user_id = #{userId}
-        limit 1
     </select>
 
-    <select id="getUserDetailInfo" resultMap="DetailInfo">
-        select user_id, phone_no, birthday, e_mail, profile_photo, sex, signature
-        from user_info
-        where user_id = #{userId}
-        limit 1
+    <select id="getUserByOpenid" resultMap="UserInfoVo">
+        select a.user_id, a.password, a.phone_no, a.birthday,
+               a.e_mail, a.profile_photo, a.sex, a.signature,
+               a.nickname, a.wx_openid, a.session_key, c.id,
+               c.name, c.description
+        from user_info a
+        left join user_role_relation b on a.user_id = b.user_id
+        left join role c on c.id = b.role_id
+        where a.wx_openid = #{openid}
     </select>
 
     <insert id="createUser">
         insert into user_info
-        (user_id, password, phone_no, signature, profile_photo, e_mail, sex, birthday, nickname)
-        values(#{userId},#{password},#{phoneNo},#{signature},#{profilePhoto},#{eMail},#{sex},#{birthday},#{nickname})
+        (user_id, password, phone_no, signature,
+        profile_photo, e_mail, sex, birthday,
+        nickname,wx_openid, session_key, last_login_time)
+        values(#{userId},#{password},#{phoneNo},#{signature},
+        #{profilePhoto},#{eMail},#{sex},#{birthday},
+        #{nickname}, #{wxOpenid}, #{sessionKey}, #{lastLoginTime})
     </insert>
 
     <select id="checkHasRole" resultType="java.lang.Integer">
         select 1
         from user_role_relation
         where user_id = #{userId}
-        and role_id = #{roleId}
+        and role_id = (select role_id from role
+        where name = #{roleName} limit 1)
         limit 1
     </select>
 
     <insert id="setRole">
         insert into user_role_relation
         (user_id, role_id)
-        values(#{userId}, #{roleId})
+        values(#{userId},
+        (select role_id from role
+        where name = #{roleName} limit 1))
     </insert>
 
     <delete id="delRole">
         delete from user_role_relation
         where user_id = #{userId}
-        and role_id = #{roleId}
+        and role_id = (select role_id from role
+        where name = #{roleName} limit 1)
         limit 1
     </delete>
 
@@ -119,4 +145,6 @@
         where user_id = #{userId}
         limit 1
     </delete>
+
+
 </mapper>

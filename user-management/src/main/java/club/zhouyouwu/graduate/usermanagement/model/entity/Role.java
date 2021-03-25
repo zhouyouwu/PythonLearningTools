@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name = "role")
 public class Role {
     @Id
-    private int id;
+    private Integer id;
 
     @Column
     private String name;

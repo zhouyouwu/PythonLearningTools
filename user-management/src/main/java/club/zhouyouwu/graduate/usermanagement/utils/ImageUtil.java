@@ -1,7 +1,6 @@
 package club.zhouyouwu.graduate.usermanagement.utils;
 
 import club.zhouyouwu.graduate.usermanagement.constant.ConstantInfo;
-import club.zhouyouwu.graduate.usermanagement.exception.ImageFormatException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +9,9 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 @Slf4j
