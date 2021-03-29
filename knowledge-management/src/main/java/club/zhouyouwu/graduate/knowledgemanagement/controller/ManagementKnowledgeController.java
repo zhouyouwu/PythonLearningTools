@@ -3,8 +3,10 @@ package club.zhouyouwu.graduate.knowledgemanagement.controller;
 import club.zhouyouwu.graduate.common.entity.Result;
 import club.zhouyouwu.graduate.knowledgemanagement.constant.FilePath;
 import club.zhouyouwu.graduate.knowledgemanagement.model.params.Question;
+import club.zhouyouwu.graduate.knowledgemanagement.model.params.SetTypeParam;
 import club.zhouyouwu.graduate.knowledgemanagement.service.KnowledgeService;
 import club.zhouyouwu.graduate.knowledgemanagement.service.QuestionService;
+import club.zhouyouwu.graduate.knowledgemanagement.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ public class ManagementKnowledgeController {
     private KnowledgeService knowledgeService;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private TypeService typeService;
 
     @PostMapping("/{typeId}/knowledge")
     public Result createKnowledgePage(@PathVariable int typeId, String pageData) throws Exception {
@@ -41,6 +45,14 @@ public class ManagementKnowledgeController {
         return Result.ok("删除成功");
     }
 
+    /**
+     * 创建问题
+     * @param model normal即普通题目，program编程题
+     * @param typeId 没用占位，题目所属章节
+     * @param pageData 页面信息，md数据
+     * @return
+     * @throws Exception
+     */
     @PostMapping("{model}/{typeId}/question")
     public Result createQuestionPage(@PathVariable String model, @PathVariable int typeId, @RequestBody Question pageData) throws Exception {
 
@@ -59,6 +71,41 @@ public class ManagementKnowledgeController {
     public Result mdfQuestionPage(@PathVariable String model, @PathVariable int typeId, @RequestBody Question pageData) throws Exception {
 
         questionService.mdfQuestion(model, pageData);
+        return Result.ok();
+    }
+
+    @PostMapping("/type")
+    public Result createChapter(@RequestBody SetTypeParam typeParam) throws Exception {
+
+        typeService.setChapter(typeParam);
+        return Result.ok("处理成功");
+    }
+
+    /**
+     * 章节删除是假删除，不启用
+     * @param typeId
+     * @param op 1开启，0关闭
+     * @return
+     */
+    @PutMapping("/type/{typeId}/{op}")
+    public Result setChapterOnOff(@PathVariable int typeId, @PathVariable String op) {
+
+        typeService.setChapterOnOff(typeId, op);
+        return Result.ok("删除成功");
+    }
+
+
+
+    /**
+     *
+     * @param typeId
+     * @return
+     * @throws Exception
+     */
+    @PutMapping("/type/{typeId}")
+    public Result mdfChapter(@RequestBody SetTypeParam typeParam, @PathVariable Integer typeId) throws Exception {
+
+        typeService.mdfChapter(typeParam);
         return Result.ok();
     }
 }

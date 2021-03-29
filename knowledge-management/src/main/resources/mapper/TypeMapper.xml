@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="club.zhouyouwu.graduate.knowledgemanagement.mapper.TypeMapper">
+
+    <insert id="setChapter">
+        insert into knowledge_type
+        (type_name, type_description, type_level, link_type_id, link_type_level, status)
+        values
+        (#{param.typeName}, #{param.typeDescription}, #{param.typeLevel},
+        #{param.linkTypeId}, #{linkTypeLevel}, 1)
+    </insert>
+
+    <update id="setChapterOnOff">
+        update knowledge_type
+        set status = #{op}
+        where type_id = #{typeId}
+        limit 1
+    </update>
+
+    <update id="mdfChapter">
+        update knowledge_type
+        <set>
+            <if test="typeParam.typeName != null">
+                type_name = #{typeParam.typeName}
+            </if>
+            <if test="typeParam.typeDescription != null">
+                type_description = #{typeParam.typeDescription}
+            </if>
+            <if test="typeParam.typeLevel != null">
+                type_level = #{typeParam.typeLevel}
+            </if>
+            <if test="typeParam.linkTypeId != null">
+                link_type_id = #{typeParam.linkTypeId}
+            </if>
+            <if test="typeParam.linkTypeName != null">
+                link_type_name = #{typeParam.linkTypeName}
+            </if>
+        </set>
+        where type_id = #{typeParam.typeId}
+        limit 1
+    </update>
+</mapper>

@@ -13,8 +13,6 @@
     </resultMap>
     <resultMap id="ProgramQuestion" type="club.zhouyouwu.graduate.knowledgemanagement.model.entity.ProgramQuestion">
         <id property="quesId" column="ques_id"/>
-        <result property="quesAnswer" column="ques_answer"/>
-        <result property="quesOptions" column="ques_options"/>
         <result property="quesTopic" column="ques_topic"/>
         <result property="quesType" column="ques_type"/>
     </resultMap>
@@ -30,11 +28,19 @@
         order by rand()
         limit #{count}
     </select>
-    <select id="getNormalQuestionById">
-
+    <select id="getNormalQuestionById" resultMap="NormalQuestion">
+        select
+        <include refid="normal_question_column"/>
+        from normal_question
+        where ques_id = #{quesId}
+        limit 1
     </select>
-    <select id="getProgramQuestionById">
-
+    <select id="getProgramQuestionById" resultMap="ProgramQuestion">
+        select
+        ques_id, ques_topic, ques_type
+        from program_question
+        where ques_id = #{quesId}
+        limit 1
     </select>
 
     <insert id="setNormalQuestion">
@@ -93,4 +99,28 @@
         where ques_id = #{question.quesId}
         limit 1
     </update>
+
+    <select id="getUnsolvedProgramQuestions" resultMap="ProgramQuestion">
+        select
+        ques_id, ques_topic, ques_type
+        from program_question a
+        left join user_question_solve b on a.ques_id = b.ques_id
+        where b.user_id = #{userId}
+        and b.status != 1
+        <if test="typeId != null">
+            and a.ques_type = #{typeId}
+        </if>
+        order by rand()
+        limit #{count}
+    </select>
+
+    <select id="normalQuesCount" resultType="java.lang.Integer">
+        select count(ques_id)
+        from normal_question
+    </select>
+
+    <select id="programQuesCount" resultType="java.lang.Integer">
+        select count(ques_id)
+        from program_question
+    </select>
 </mapper>

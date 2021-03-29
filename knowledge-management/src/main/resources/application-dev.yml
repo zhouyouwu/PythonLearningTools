@@ -10,4 +10,11 @@ spring:
     url: jdbc:mysql://localhost:3306/PythonLearningTools?serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: 12345678
-    data-username: root
+    username: root
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    club.zhouyouwu.graduate.knowledgemanagement.mapper: debug

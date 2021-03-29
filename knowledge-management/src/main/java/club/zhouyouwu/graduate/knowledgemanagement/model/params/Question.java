@@ -7,7 +7,7 @@ public class Question {
     private static final String MODE_NORMAL = "normal";
     private static final String MODE_PROGRAM = "program";
 
-    private long quesId;
+    private Long quesId;
 
     private String quesTopic;
 
@@ -15,7 +15,7 @@ public class Question {
 
     private String quesAnswer;
 
-    private long quesType;//问题所属知识点单元
+    private Long quesType;//问题所属知识点单元
 
     private String quesMode;
 }

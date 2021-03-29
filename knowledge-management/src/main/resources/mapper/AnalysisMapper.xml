@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="club.zhouyouwu.graduate.knowledgemanagement.mapper.AnalysisMapper">
+    <resultMap id="UserSolve" type="club.zhouyouwu.graduate.knowledgemanagement.model.entity.UserSolve">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="quesId" column="ques_id"/>
+        <result property="status" column="status"/>
+        <result property="programOrNormal" column="program_or_normal"/>
+    </resultMap>
+    <resultMap id="TrainingDetail" type="club.zhouyouwu.graduate.knowledgemanagement.model.vo.TrainingDetail">
+        <result column="ques_id" property="quesId"/>
+        <result column="ques_topic" property="quesTopic"/>
+        <result column="ques_options" property="quesOptions"/>
+        <result column="ques_answer" property="quesAnswer"/>
+        <result column="ques_type" property="quesType"/>
+        <result column="user_id" property="userId"/>
+        <result column="answer" property="answer"/>
+        <result column="status" property="status"/>
+        <result column="program_or_normal" property="programOrNormal"/>
+        <result column="reply_time" property="replyTime"/>
+    </resultMap>
+
+    <select id="getUserTrainingData" resultMap="UserSolve">
+        select id, user_id, ques_id, status, program_or_normal
+        from user_question_solve
+        where user_id = #{userId}
+    </select>
+
+    <select id="getUserTrainingByDate" resultMap="TrainingDetail">
+        select a.user_id, a.ques_id, a.program_or_normal,
+        b.status, b.answer, LEFT(b.reply_time, 8) as reply_time,
+        ifnull(c.ques_topic, d.ques_topic) as ques_topic, c.ques_options,
+         c.ques_answer, ifnull(c.ques_type,d.ques_type) as ques_type
+        from user_question_solve a
+        left join user_solve_detail_info b on a.id = b.id
+        left join normal_question c on c.ques_id = a.ques_id and a.program_or_normal = 0
+        left join program_question d on d.ques_id = a.ques_id and a.program_or_normal = 1
+        where a.user_id = #{userId}
+        <foreach collection="dateList" item="date" separator="or" open="and">
+            b.reply_time like concat(#{date},'%')
+        </foreach>
+    </select>
+</mapper>

@@ -1,5 +1,7 @@
 package club.zhouyouwu.graduate.knowledgemanagement.mapper;
 
+import club.zhouyouwu.graduate.knowledgemanagement.model.entity.NormalQuestion;
+import club.zhouyouwu.graduate.knowledgemanagement.model.entity.ProgramQuestion;
 import club.zhouyouwu.graduate.knowledgemanagement.model.params.Question;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,12 +13,12 @@ import java.util.List;
 @Repository
 public interface QuestionMapper {
 
-    List<Question> getUnsolvedQuestions(@Param("userId") Long userId, @Param("count") Integer count,
-                                        @Param("typeId") Long typeId);
+    List<NormalQuestion> getUnsolvedQuestions(@Param("userId") Long userId, @Param("count") Integer count,
+                                              @Param("typeId") Long typeId);
 
-    Question getNormalQuestionById(Long quesId);
+    NormalQuestion getNormalQuestionById(Long quesId);
 
-    Question getProgramQuestionById(Long quesId);
+    ProgramQuestion getProgramQuestionById(Long quesId);
 
     long setNormalQuestion(Question question);
 
@@ -29,4 +31,11 @@ public interface QuestionMapper {
     void mdfNormalQuestion(Question question);
 
     void mdfProgramQuestion(Question question);
+
+    List<ProgramQuestion> getUnsolvedProgramQuestions(@Param("userId") Long userId, @Param("count") Integer count,
+                                                      @Param("typeId") Long typeId);
+
+    int normalQuesCount();
+
+    int programQuesCount();
 }
