@@ -1,0 +1,19 @@
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: Correct
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/PythonLearningTools?serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 12345678
+    username: root
+
+server:
+  port: 6364
